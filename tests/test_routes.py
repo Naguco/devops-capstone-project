@@ -131,3 +131,16 @@ class TestAccountService(TestCase):
         self.assertEqual(http_resp.status_code, status.HTTP_200_OK)
         body = http_resp.get_json()
         self.assertEqual(len(body), 5)
+
+    def test_read_an_account(self):
+        """It should return the account requested"""
+        account = self._create_accounts(1)[0]
+        http_resp = self.client.get(f"{BASE_URL}/{account.id}", content_type="application/json")
+        self.assertEqual(http_resp.status_code, status.HTTP_200_OK)
+        body = http_resp.get_json()
+        self.assertEqual(body["name"], account.name)
+    
+    def test_account_not_found(self):
+        """It should return a 404 not found"""
+        http_resp = self.client.get(f"{BASE_URL}/0", content_type="application/json")
+        self.assertEqual(http_resp.status_code, status.HTTP_404_NOT_FOUND)
