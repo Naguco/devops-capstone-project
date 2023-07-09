@@ -57,10 +57,10 @@ def create_accounts():
         jsonify(message), status.HTTP_201_CREATED, {"Location": location_url}
     )
 
+
 ######################################################################
 # LIST ALL ACCOUNTS
 ######################################################################
-
 # ... place you code here to LIST accounts ...
 @app.route("/accounts", methods=["GET"])
 def list_accounts():
@@ -87,8 +87,8 @@ def read_account(id):
     app.logger.info("Reading account id: %s", id)
     account_db = Account.find(id)
     if not account_db:
-        abort(status.HTTP_404_NOT_FOUND, f"Account not found")
-    
+        abort(status.HTTP_404_NOT_FOUND, f'{"Account not found"}')
+
     return account_db.serialize(), status.HTTP_200_OK
 
 
@@ -108,8 +108,8 @@ def update_account(id):
     account_info_update = request.get_json()
     account_db = Account.find(id)
     if not account_db:
-        abort(status.HTTP_404_NOT_FOUND, f"Account not found, not updated.")
-    
+        abort(status.HTTP_404_NOT_FOUND, f'{"Account not found, not updated."}')
+
     account_db.deserialize(account_info_update)
     account_db.update()
 
@@ -133,7 +133,7 @@ def delete_account(id):
     if account_db:
         account_db.delete()
     else:
-        abort(status.HTTP_404_NOT_FOUND, f"Account not found.")
+        abort(status.HTTP_404_NOT_FOUND, f'{"Account not found."}')
 
     return "", status.HTTP_204_NO_CONTENT
 
